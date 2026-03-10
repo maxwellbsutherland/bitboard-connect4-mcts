@@ -21,9 +21,12 @@ int main(void) {
     Node *root = create_node(NULL, &board, 255);
     if (!root) return 1;
 
-    for (;;) {
-        U8 move = 255;
+    print_board(&board);
 
+    for (;;) {
+        printf("%s's Move...\n", (board.color == RED) ? "X" : "O");
+
+        U8 move = 255;
         if (board.color == RED) {
             unsigned int input = 0;
 
@@ -31,7 +34,7 @@ int main(void) {
             gen_moves(&board, NULL, &count);
 
             do {
-                printf("Move [1-7] > ");
+                printf("> ");
                 if (scanf("%u", &input) != 1) {
                     free_node(root);
                     return 1;
@@ -54,8 +57,15 @@ int main(void) {
         make_move(&board, move);
         print_board(&board);
 
-        if (is_win(&board))
+        if (is_win(&board)) {
+            printf("%s Wins!\n", (board.color == RED) ? "X" : "O");
             break;
+        }
+
+        if (is_draw(&board)) {
+            printf("Draw!\n");
+            break;
+        }
 
         root = mcts_advance_root(root, move);
         if (!root)

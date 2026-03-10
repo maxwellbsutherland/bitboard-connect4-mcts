@@ -21,5 +21,6 @@ static inline void switch_color(Board *board) {
 }
 
 int is_win(const Board *board);
+int is_draw(const Board *board);
 
 void print_board(const Board *board);

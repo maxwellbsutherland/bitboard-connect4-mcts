@@ -1,5 +1,6 @@
 #include <board.h>
 #include <bitboard.h>
+#include <movegen.h>
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -23,6 +24,12 @@ int is_win(const Board *board) {
     if (m & (m >> 18)) return 1;
 
     return 0;
+}
+
+int is_draw(const Board *board) {
+    U8 count;
+    gen_moves(board, NULL, &count);
+    return (count == 0);
 }
 
 void print_board(const Board *board) {
